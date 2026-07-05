@@ -41,6 +41,14 @@ The included `netlify.toml` also adds an SPA redirect (`/* → /index.html`) so 
 - Tailwind CSS
 - Zero backend — every CTA opens a pre-filled `mailto:` to `hamed.nalle@sautify.com`
 
+## SEO
+
+Canonical URL, robots meta, OG/Twitter tags, and Organization JSON-LD are set in `index.html` for `https://sautify.co.ke/`. `public/robots.txt` and `public/sitemap.xml` are included for Google Search Console submission — update the domain in both if it ever changes.
+
+## License
+
+All Rights Reserved. See [LICENSE](./LICENSE). This is proprietary code, not open source.
+
 ## Contact
 
 hamed.nalle@sautify.com
