@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sautify.co.ke/sitemap.xml
