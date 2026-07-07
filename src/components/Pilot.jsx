@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import AnimatedText from './AnimatedText'
 import { PILOT_MAILTO } from '../constants'
 
 const perks = [
@@ -25,31 +26,43 @@ export default function Pilot() {
     <section id="pilot" className="py-24 md:py-32 px-6 bg-ink scroll-mt-16">
       <div className="max-w-5xl mx-auto">
         <Reveal>
-          <div className="rounded-2xl border-2 border-gold/40 bg-card p-10 md:p-16 text-center shadow-[0_0_80px_-20px_rgba(212,175,55,0.25)]">
-            <h2 className="text-3xl md:text-5xl font-bold text-fg leading-tight">
-              We're Accepting Our First <span className="text-gold">10 Pilot Venues</span> in Nairobi
-            </h2>
+          <div className="rounded-2xl border-2 border-gold/40 bg-card p-10 md:p-16 text-center shadow-[0_0_80px_-20px_rgba(212,175,55,0.25)] transition-shadow duration-500 ease-out hover:shadow-[0_0_100px_-15px_rgba(212,175,55,0.4)]">
+            <AnimatedText
+              as="h2"
+              stagger={30}
+              className="text-3xl md:text-5xl font-bold text-fg leading-tight"
+              segments={[
+                { text: "We're Accepting Our First " },
+                { text: '10 Pilot Venues', className: 'text-gold' },
+                { text: ' in Nairobi' },
+              ]}
+            />
 
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed">
-              If you run a bar, hotel, club, or radio station in Nairobi and want to be part of
-              making Kenya's music industry fairer — we want to hear from you.
-            </p>
+            <AnimatedText
+              as="p"
+              stagger={16}
+              baseDelay={400}
+              className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed"
+              text="If you run a bar, hotel, club, or radio station in Nairobi and want to be part of making Kenya's music industry fairer, we want to hear from you."
+            />
 
             <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-xl mx-auto text-left">
-              {perks.map((p) => (
-                <div key={p} className="flex items-start gap-3">
+              {perks.map((p, i) => (
+                <Reveal key={p} delay={900 + i * 90} className="flex items-start gap-3">
                   <StarIcon />
                   <span className="text-fg">{p}</span>
-                </div>
+                </Reveal>
               ))}
             </div>
 
-            <a
-              href={PILOT_MAILTO}
-              className="mt-12 inline-flex items-center justify-center rounded-md bg-gold px-10 py-5 text-lg font-bold text-ink hover:bg-gold/90 transition-colors"
-            >
-              Apply for the Pilot Programme
-            </a>
+            <Reveal delay={1300}>
+              <a
+                href={PILOT_MAILTO}
+                className="mt-12 inline-flex items-center justify-center rounded-md bg-gold px-10 py-5 text-lg font-bold text-ink transition-all duration-200 ease-out hover:bg-gold/90 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/30 active:translate-y-0 active:scale-95"
+              >
+                Apply for the Pilot Programme
+              </a>
+            </Reveal>
           </div>
         </Reveal>
       </div>

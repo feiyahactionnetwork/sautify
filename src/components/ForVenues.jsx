@@ -1,11 +1,12 @@
 import Reveal from './Reveal'
+import AnimatedText from './AnimatedText'
 import { PILOT_MAILTO } from '../constants'
 
 const bullets = [
-  'Plug in and forget — the device runs itself',
+  'Plug in and forget: the device runs itself',
   'No internet? Plays are buffered and synced automatically',
-  'Proof of what you played — useful for licence renewals',
-  'KES 2,500/month — less than your WiFi bill',
+  'Proof of what you played, useful for licence renewals',
+  'KES 2,500/month, less than your WiFi bill',
 ]
 
 const samplePlays = [
@@ -26,10 +27,10 @@ function CheckIcon() {
 function DeviceMockup() {
   const bars = Array.from({ length: 28 })
   return (
-    <div className="relative rounded-2xl border border-line bg-card p-6 sm:p-8 overflow-hidden">
+    <div className="relative rounded-2xl border border-line bg-card p-6 sm:p-8 overflow-hidden transition-all duration-300 ease-out hover:border-emerald/40 hover:shadow-xl hover:shadow-emerald/5">
       <div className="flex items-center gap-3 mb-6">
         <span className="w-2.5 h-2.5 rounded-full bg-emeraldLight animate-pulse" aria-hidden="true" />
-        <span className="text-sm font-medium text-muted">Sautify Device — Live</span>
+        <span className="text-sm font-medium text-muted">Sautify Device: Live</span>
       </div>
 
       <div className="rounded-lg bg-ink border border-line p-5 mb-6">
@@ -49,7 +50,7 @@ function DeviceMockup() {
 
       <div className="space-y-4">
         {samplePlays.map((p) => (
-          <div key={p.title} className="flex items-center justify-between text-sm">
+          <div key={p.title} className="flex items-center justify-between text-sm transition-transform duration-200 ease-out hover:translate-x-1">
             <div>
               <div className="text-fg font-medium">{p.title}</div>
               <div className="text-muted text-xs mt-0.5">
@@ -70,27 +71,35 @@ export default function ForVenues() {
   return (
     <section id="for-venues" className="py-24 md:py-32 px-6 bg-ink scroll-mt-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <Reveal>
-          <h2 className="text-3xl md:text-5xl font-bold text-fg leading-tight">
-            Simple for Venues. <span className="text-gold">Powerful for Everyone.</span>
-          </h2>
+        <div>
+          <AnimatedText
+            as="h2"
+            stagger={30}
+            className="text-3xl md:text-5xl font-bold text-fg leading-tight"
+            segments={[
+              { text: 'Simple for Venues. ' },
+              { text: 'Powerful for Everyone.', className: 'text-gold' },
+            ]}
+          />
 
           <ul className="mt-8 space-y-4">
-            {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-3 text-muted text-base md:text-lg">
+            {bullets.map((b, i) => (
+              <Reveal key={b} as="li" delay={200 + i * 90} className="flex items-start gap-3 text-muted text-base md:text-lg">
                 <CheckIcon />
                 <span>{b}</span>
-              </li>
+              </Reveal>
             ))}
           </ul>
 
-          <a
-            href={PILOT_MAILTO}
-            className="mt-10 inline-flex items-center justify-center rounded-md bg-gold px-7 py-4 text-base font-semibold text-ink hover:bg-gold/90 transition-colors"
-          >
-            Request a Device for Your Venue
-          </a>
-        </Reveal>
+          <Reveal delay={600}>
+            <a
+              href={PILOT_MAILTO}
+              className="mt-10 inline-flex items-center justify-center rounded-md bg-gold px-7 py-4 text-base font-semibold text-ink transition-all duration-200 ease-out hover:bg-gold/90 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20 active:translate-y-0 active:scale-95"
+            >
+              Request a Device for Your Venue
+            </a>
+          </Reveal>
+        </div>
 
         <Reveal delay={150}>
           <DeviceMockup />

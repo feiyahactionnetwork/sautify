@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import AnimatedText from './AnimatedText'
 import { PILOT_MAILTO } from '../constants'
 
 function Waveform() {
@@ -40,28 +41,38 @@ export default function Hero() {
           </span>
         </Reveal>
 
-        <Reveal delay={100} as="h1" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] text-fg">
-          Every Play. Every Artist. <span className="text-gold">Every Shilling.</span>
-        </Reveal>
+        <AnimatedText
+          as="h1"
+          mode="letter"
+          stagger={22}
+          baseDelay={100}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] text-fg"
+          segments={[
+            { text: 'Every Play. Every Artist. ' },
+            { text: 'Every Shilling.', className: 'text-gold' },
+          ]}
+        />
 
-        <Reveal delay={200}>
-          <p className="mt-6 text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed">
-            Kenya's music venues play millions of songs every day. None of them are tracked.
-            Sautify is the infrastructure that changes that.
-          </p>
-        </Reveal>
+        <AnimatedText
+          as="p"
+          mode="word"
+          stagger={18}
+          baseDelay={500}
+          className="mt-6 text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
+          text="Kenya's music venues play millions of songs every day. None of them are tracked. Sautify is the infrastructure that changes that."
+        />
 
         <Reveal delay={300}>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href={PILOT_MAILTO}
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 text-base font-semibold text-ink hover:bg-gold/90 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-gold px-8 py-4 text-base font-semibold text-ink transition-all duration-200 ease-out hover:bg-gold/90 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20 active:translate-y-0 active:scale-95"
             >
               Request a Pilot
             </a>
             <a
               href="#how-it-works"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-line px-8 py-4 text-base font-semibold text-fg hover:border-gold/50 hover:text-gold transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-line px-8 py-4 text-base font-semibold text-fg transition-all duration-200 ease-out hover:border-gold/50 hover:text-gold hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
             >
               See How It Works
             </a>

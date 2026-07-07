@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import AnimatedText from './AnimatedText'
 import { ARTIST_WAITLIST_MAILTO } from '../constants'
 
 const features = [
@@ -37,24 +38,30 @@ export default function ForArtists() {
   return (
     <section id="for-artists" className="relative py-24 md:py-32 px-6 bg-[#0E1712] border-y border-emerald/20 scroll-mt-16">
       <div className="max-w-6xl mx-auto text-center">
-        <Reveal>
-          <h2 className="text-3xl md:text-5xl font-bold text-fg">
-            Finally See <span className="text-emeraldLight">Every Play</span> of Your Music
-          </h2>
-        </Reveal>
+        <AnimatedText
+          as="h2"
+          stagger={30}
+          className="text-3xl md:text-5xl font-bold text-fg"
+          segments={[
+            { text: 'Finally See ' },
+            { text: 'Every Play', className: 'text-emeraldLight' },
+            { text: ' of Your Music' },
+          ]}
+        />
 
-        <Reveal delay={100}>
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed">
-            Log in to your Sautify dashboard and see exactly where your music was played, how many
-            times, and what you're owed — in real time.
-          </p>
-        </Reveal>
+        <AnimatedText
+          as="p"
+          stagger={16}
+          baseDelay={400}
+          className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed"
+          text="Log in to your Sautify dashboard and see exactly where your music was played, how many times, and what you're owed, in real time."
+        />
 
         <div className="mt-16 grid sm:grid-cols-3 gap-6 text-left">
           {features.map((f, i) => (
-            <Reveal key={f.title} delay={200 + i * 120}>
-              <div className="h-full rounded-xl border border-emerald/25 bg-card p-8">
-                <div className="w-11 h-11 rounded-lg bg-emerald/15 border border-emerald/30 flex items-center justify-center mb-5">
+            <Reveal key={f.title} delay={900 + i * 120}>
+              <div className="h-full rounded-xl border border-emerald/25 bg-card p-8 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-emeraldLight/50 hover:shadow-lg hover:shadow-emerald/10 group">
+                <div className="w-11 h-11 rounded-lg bg-emerald/15 border border-emerald/30 flex items-center justify-center mb-5 transition-transform duration-300 ease-out group-hover:scale-110">
                   {f.icon}
                 </div>
                 <h3 className="text-lg font-bold text-fg mb-2">{f.title}</h3>
@@ -64,10 +71,10 @@ export default function ForArtists() {
           ))}
         </div>
 
-        <Reveal delay={600}>
+        <Reveal delay={1300}>
           <a
             href={ARTIST_WAITLIST_MAILTO}
-            className="mt-12 inline-flex items-center justify-center rounded-md bg-emerald px-8 py-4 text-base font-semibold text-fg hover:bg-emeraldLight transition-colors"
+            className="mt-12 inline-flex items-center justify-center rounded-md bg-emerald px-8 py-4 text-base font-semibold text-fg transition-all duration-200 ease-out hover:bg-emeraldLight hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald/20 active:translate-y-0 active:scale-95"
           >
             Join the Artist Waitlist
           </a>

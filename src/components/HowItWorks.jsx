@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import AnimatedText from './AnimatedText'
 
 const steps = [
   {
@@ -19,7 +20,7 @@ const steps = [
   {
     n: 4,
     title: 'Pay',
-    desc: 'Royalty reports are generated automatically and handed to your CMO for payout — based on actual evidence, not estimates.',
+    desc: 'Royalty reports are generated automatically and handed to your CMO for payout, based on actual evidence, not estimates.',
   },
 ]
 
@@ -43,18 +44,22 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="py-24 md:py-32 px-6 bg-ink border-y border-line scroll-mt-16">
       <div className="max-w-7xl mx-auto">
-        <Reveal>
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-fg">
-            From Audio to Artist Payout — <span className="text-gold">Automatically</span>
-          </h2>
-        </Reveal>
+        <AnimatedText
+          as="h2"
+          stagger={30}
+          className="text-3xl md:text-5xl font-bold text-center text-fg"
+          segments={[
+            { text: 'From Audio to Artist Payout: ' },
+            { text: 'Automatically', className: 'text-gold' },
+          ]}
+        />
 
         <div className="mt-20 flex flex-col md:flex-row md:items-start gap-2">
           {steps.flatMap((step, i) => {
             const items = [
               <Reveal key={`step-${step.n}`} delay={i * 120} className="flex-1">
-                <div className="flex flex-col items-center text-center h-full mx-auto max-w-xs md:max-w-none">
-                  <div className="w-14 h-14 flex-shrink-0 rounded-full bg-emerald/15 border border-emerald/40 flex items-center justify-center text-emeraldLight text-xl font-bold mb-5">
+                <div className="flex flex-col items-center text-center h-full mx-auto max-w-xs md:max-w-none group">
+                  <div className="w-14 h-14 flex-shrink-0 rounded-full bg-emerald/15 border border-emerald/40 flex items-center justify-center text-emeraldLight text-xl font-bold mb-5 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:bg-emerald/25">
                     {step.n}
                   </div>
                   <h3 className="text-xl font-bold text-fg mb-3">{step.title}</h3>
