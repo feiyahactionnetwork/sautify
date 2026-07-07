@@ -21,8 +21,8 @@ const features = [
     ),
   },
   {
-    title: 'M-Pesa Payouts',
-    desc: 'Receive what you\'re owed directly to your wallet',
+    title: 'Payout Status',
+    desc: 'Track what your CMO has released to you, backed by evidence',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect x="3" y="5" width="18" height="14" rx="2" stroke="#26A65B" strokeWidth="1.8" />

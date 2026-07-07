@@ -19,7 +19,7 @@ const steps = [
   {
     n: 4,
     title: 'Pay',
-    desc: 'Royalty reports are generated automatically. Artists receive M-Pesa payouts based on actual evidence — not estimates.',
+    desc: 'Royalty reports are generated automatically and handed to your CMO for payout — based on actual evidence, not estimates.',
   },
 ]
 

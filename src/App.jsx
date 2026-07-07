@@ -5,6 +5,7 @@ import HowItWorks from './components/HowItWorks'
 import ForVenues from './components/ForVenues'
 import ForArtists from './components/ForArtists'
 import TechStack from './components/TechStack'
+import Compliance from './components/Compliance'
 import Pilot from './components/Pilot'
 import About from './components/About'
 import Footer from './components/Footer'
@@ -20,6 +21,7 @@ export default function App() {
         <ForVenues />
         <ForArtists />
         <TechStack />
+        <Compliance />
         <Pilot />
         <About />
       </main>
