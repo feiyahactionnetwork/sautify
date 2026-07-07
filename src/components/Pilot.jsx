@@ -4,7 +4,7 @@ import { PILOT_MAILTO } from '../constants'
 
 const perks = [
   'Free device installation',
-  '3 months free subscription',
+  'No cost to venues during the pilot phase',
   'Priority onboarding and support',
   'First access to the full dashboard',
 ]

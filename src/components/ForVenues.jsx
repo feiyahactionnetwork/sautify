@@ -6,7 +6,6 @@ const bullets = [
   'Plug in and forget: the device runs itself',
   'No internet? Plays are buffered and synced automatically',
   'Proof of what you played, useful for licence renewals',
-  'KES 2,500/month, less than your WiFi bill',
 ]
 
 const samplePlays = [

@@ -14,7 +14,8 @@ export default function Footer() {
       <Reveal className="max-w-7xl mx-auto grid gap-10 md:grid-cols-3 md:items-start text-center md:text-left">
         <div>
           <span className="text-xl font-extrabold tracking-tight text-gold">Sautify</span>
-          <p className="mt-2 text-sm text-muted">Every Play. Every Artist. Every Shilling.</p>
+          <p className="mt-2 text-sm text-muted">Capturing every artist's voice.</p>
+          <p className="text-sm text-emeraldLight italic">Sauti zote zasikizwa, zalipwa.</p>
         </div>
 
         <nav className="flex flex-col md:items-center gap-3">

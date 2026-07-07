@@ -48,16 +48,25 @@ export default function Hero() {
           baseDelay={100}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] text-fg"
           segments={[
-            { text: 'Every Play. Every Artist. ' },
-            { text: 'Every Shilling.', className: 'text-gold' },
+            { text: 'Capturing Every ' },
+            { text: "Artist's Voice", className: 'text-gold' },
           ]}
         />
 
         <AnimatedText
           as="p"
           mode="word"
+          stagger={24}
+          baseDelay={450}
+          className="mt-4 text-xl md:text-2xl font-medium text-emeraldLight italic tracking-wide"
+          text="Sauti Zote Zasikizwa, Zalipwa."
+        />
+
+        <AnimatedText
+          as="p"
+          mode="word"
           stagger={18}
-          baseDelay={500}
+          baseDelay={650}
           className="mt-6 text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
           text="Kenya's music venues play millions of songs every day. None of them are tracked. Sautify is the infrastructure that changes that."
         />
