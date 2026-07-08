@@ -5,6 +5,7 @@ const links = [
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'For Venues', href: '#for-venues' },
   { label: 'For Artists', href: '#for-artists' },
+  { label: 'Transparency Ledger', href: '#ledger' },
   { label: 'Pilot Programme', href: '#pilot' },
 ]
 

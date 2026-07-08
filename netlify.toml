@@ -5,6 +5,25 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/ledger"
+  to = "/.netlify/functions/list-ledger"
+  status = 200
+
+[[redirects]]
+  from = "/api/ledger/evidence"
+  to = "/.netlify/functions/submit-evidence"
+  status = 200
+
+[[redirects]]
+  from = "/api/ledger/:id/settle"
+  to = "/.netlify/functions/simulate-settlement?id=:id"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
