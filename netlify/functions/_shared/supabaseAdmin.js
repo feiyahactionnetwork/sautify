@@ -1,4 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
+import WebSocket from 'ws'
+
+// @supabase/realtime-js requires a global WebSocket implementation and throws at
+// client-construction time if one isn't present. Netlify Functions run on a Node
+// version without a native WebSocket global, so polyfill it even though this app
+// never actually opens a realtime channel.
+if (typeof globalThis.WebSocket === 'undefined') {
+  globalThis.WebSocket = WebSocket
+}
 
 let client = null
 
