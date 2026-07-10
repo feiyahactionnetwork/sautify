@@ -23,7 +23,10 @@ export const handler = async (event) => {
   const pathSegments = event.path.split('/').filter(Boolean)
   const id = Number(pathSegments[pathSegments.length - 1])
   if (!Number.isInteger(id) || id <= 0) {
-    return json(400, { error: 'A valid numeric ledger entry id is required' })
+    return json(400, {
+      error: 'A valid numeric ledger entry id is required',
+      debug: { path: event.path, rawUrl: event.rawUrl, query: event.queryStringParameters },
+    })
   }
 
   let body = {}
