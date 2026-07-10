@@ -21,7 +21,7 @@
 
 [[redirects]]
   from = "/api/ledger/:id/settle"
-  to = "/.netlify/functions/simulate-settlement/:id"
+  to = "/.netlify/functions/simulate-settlement"
   status = 200
 
 [[redirects]]

@@ -17,16 +17,13 @@ export const handler = async (event) => {
     return json(405, { error: 'Method not allowed' })
   }
 
-  // The netlify.toml redirect forwards /api/ledger/:id/settle here as
-  // /.netlify/functions/simulate-settlement/:id (splat), so the id is the
-  // last path segment rather than a query param.
+  // event.path reflects the original request path (/api/ledger/:id/settle),
+  // not the rewritten function path, even though the netlify.toml redirect
+  // is what routed this request here. The id is the segment before "settle".
   const pathSegments = event.path.split('/').filter(Boolean)
-  const id = Number(pathSegments[pathSegments.length - 1])
+  const id = Number(pathSegments[pathSegments.length - 2])
   if (!Number.isInteger(id) || id <= 0) {
-    return json(400, {
-      error: 'A valid numeric ledger entry id is required',
-      debug: { path: event.path, rawUrl: event.rawUrl, query: event.queryStringParameters },
-    })
+    return json(400, { error: 'A valid numeric ledger entry id is required' })
   }
 
   let body = {}
