@@ -20,8 +20,8 @@
   status = 200
 
 [[redirects]]
-  from = "/api/ledger/:id/settle"
-  to = "/.netlify/functions/simulate-settlement?id=:id"
+  from = "/api/ledger/*/settle"
+  to = "/.netlify/functions/simulate-settlement/:splat"
   status = 200
 
 [[redirects]]
