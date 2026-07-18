@@ -1,8 +1,9 @@
 import { getSupabaseAdmin } from './_shared/supabaseAdmin.js'
 import { formatEntry } from './_shared/formatEntry.js'
+import { computeTariff, splitSeventyThirty, TariffError } from './_shared/tariffEngine.js'
 
 const DEFAULT_INVOICE_KES = 5000
-const ARTIST_SPLIT = 0.7
+const MS_PER_DAY = 1000 * 60 * 60 * 24
 
 function json(statusCode, body) {
   return {
@@ -33,8 +34,6 @@ export const handler = async (event) => {
     return json(400, { error: 'Invalid JSON body' })
   }
 
-  const invoiceAmountKes = typeof body.invoiceAmountKes === 'number' ? body.invoiceAmountKes : DEFAULT_INVOICE_KES
-
   try {
     const supabase = getSupabaseAdmin()
 
@@ -54,8 +53,34 @@ export const handler = async (event) => {
       return json(409, { error: `Ledger entry ${id} is already settled` })
     }
 
-    const artistAmountKes = Math.round(invoiceAmountKes * ARTIST_SPLIT * 100) / 100
-    const adminAmountKes = Math.round((invoiceAmountKes - artistAmountKes) * 100) / 100
+    // Invoice amount precedence: explicit amount in the request body, then a
+    // gazetted-tariff computation prorated to the entry's reporting period,
+    // then the legacy flat demo default.
+    let invoiceAmountKes
+    if (typeof body.invoiceAmountKes === 'number') {
+      invoiceAmountKes = body.invoiceAmountKes
+    } else if (body.userCategory && body.venueClass) {
+      const periodMs =
+        new Date(existing.reporting_period_end).getTime() - new Date(existing.reporting_period_start).getTime()
+      const periodDays = Math.min(366, Math.max(1, Math.round(periodMs / MS_PER_DAY)))
+      try {
+        const tariff = computeTariff({
+          userCategory: body.userCategory,
+          venueClass: body.venueClass,
+          grossRevenueKes: body.grossRevenueKes,
+          units: body.units ?? 1,
+          periodDays,
+        })
+        invoiceAmountKes = tariff.proratedTariffKes
+      } catch (err) {
+        if (err instanceof TariffError) return json(400, { error: err.message })
+        throw err
+      }
+    } else {
+      invoiceAmountKes = DEFAULT_INVOICE_KES
+    }
+
+    const { artistAmountKes, adminAmountKes } = splitSeventyThirty(invoiceAmountKes)
     const cmoDisbursementRef = `DEMO-CMO-${id}-${Date.now()}`
 
     const { data: updated, error: updateError } = await supabase

@@ -44,12 +44,12 @@ export default function Hero() {
         <AnimatedText
           as="h1"
           mode="letter"
-          stagger={22}
+          stagger={16}
           baseDelay={100}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] text-fg"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] text-fg"
           segments={[
-            { text: 'Capturing Every ' },
-            { text: "Artist's Voice", className: 'text-gold' },
+            { text: 'Verifiable Royalty Attribution ' },
+            { text: "for Kenya's Copyright Ecosystem", className: 'text-gold' },
           ]}
         />
 
@@ -65,10 +65,10 @@ export default function Hero() {
         <AnimatedText
           as="p"
           mode="word"
-          stagger={18}
+          stagger={14}
           baseDelay={650}
           className="mt-6 text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
-          text="Kenya's music venues play millions of songs every day. None of them are tracked. Sautify is the infrastructure that changes that."
+          text="Play logs with NRR-compatible works data, priced against Kenya's gazetted tariffs, packaged for eCitizen reconciliation, and sealed in a tamper-evident audit trail regulators can verify. Audio fingerprinting is our plumbing; verifiable attribution is the product."
         />
 
         <Reveal delay={300}>

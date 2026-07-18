@@ -42,7 +42,7 @@ export default function TechStack() {
             stagger={14}
             baseDelay={200}
             className="text-lg text-muted leading-relaxed"
-            text="Sautify's IoT device works on WiFi or cellular, buffers plays offline, and syncs automatically when connectivity is restored. Our cloud backend is built for scale, from 3 venues in Nairobi to 80,000 across Kenya."
+            text="Fingerprinting is commodity infrastructure — the value is in what sits on top: tariff logic, NRR-compatible works data, and a tamper-evident ledger. Sautify's IoT device works on WiFi or cellular, buffers plays offline, and syncs automatically. The cloud backend is built for scale, from 3 venues in Nairobi to 80,000 across Kenya."
           />
         </div>
       </div>

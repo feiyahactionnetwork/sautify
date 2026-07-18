@@ -5,7 +5,8 @@ import { PILOT_MAILTO } from '../constants'
 const bullets = [
   'Plug in and forget: the device runs itself',
   'No internet? Plays are buffered and synced automatically',
-  'Proof of what you played, useful for licence renewals',
+  'Time-stamped proof of what you played — evidence for licence renewals and tariff queries',
+  'Your licence category and gazetted tariff, visible in one place',
 ]
 
 const samplePlays = [
@@ -76,8 +77,8 @@ export default function ForVenues() {
             stagger={30}
             className="text-3xl md:text-5xl font-bold text-fg leading-tight"
             segments={[
-              { text: 'Simple for Venues. ' },
-              { text: 'Powerful for Everyone.', className: 'text-gold' },
+              { text: 'Compliance Made Simple ' },
+              { text: 'for Venues', className: 'text-gold' },
             ]}
           />
 

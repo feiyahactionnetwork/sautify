@@ -1,6 +1,20 @@
-# Sautify — Marketing Website
+# Sautify — Marketing Website & Attribution Prototype
 
-Kenya's infrastructure for music royalty attribution. This repo is the public marketing site: React + Vite + Tailwind CSS, no backend, all calls-to-action use `mailto:` links.
+Kenya's infrastructure for music royalty attribution. This repo holds the public marketing site (React + Vite + Tailwind CSS) plus a working prototype of the Kenya-specific attribution layer as Netlify Functions:
+
+- **Tamper-evident ledger** (`/api/ledger`, `/api/ledger/evidence`): hash-chained, append-only evidence batches with NRR-compatible cross-check fields (Supabase + Netlify Blobs).
+- **Gazetted tariff engine** (`/api/tariff`): computes the applicable KECOBO Consolidated Tariff from user category (broadcaster, venue, PSV, telco) + class, with proration and the mandated 70/30 artist/admin split. Figures are indicative pending line-by-line verification against the Kenya Gazette schedule — every response says so via `scheduleStatus`.
+- **Settlement simulation** (`/api/ledger/:id/settle`): demo eCitizen-style settlement using tariff-derived invoice amounts and 70/30 distribution fields.
+
+Calls-to-action on the site use `mailto:` links.
+
+## Tests
+
+```bash
+npm test
+```
+
+Runs the `node --test` suite (auto-discovers `tests/`; currently covers the tariff engine).
 
 ## Run locally
 

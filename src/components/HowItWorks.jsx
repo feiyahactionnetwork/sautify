@@ -4,23 +4,28 @@ import AnimatedText from './AnimatedText'
 const steps = [
   {
     n: 1,
-    title: 'Listen',
-    desc: 'A plug-in device captures 10-second audio clips every 30 seconds at your venue. No technical setup required.',
+    title: 'Capture',
+    desc: 'A plug-in venue device or broadcast monitor samples audio around the clock. Offline buffering means no play goes missing.',
   },
   {
     n: 2,
-    title: 'Identify',
-    desc: "ACRCloud's audio fingerprinting API matches the audio against 100M+ tracks and returns the artist, title, and ISRC code.",
+    title: 'Match',
+    desc: 'Audio fingerprinting (ACRCloud) identifies each play — artist, title, ISRC — structured for cross-checking against NRR-compatible works records.',
   },
   {
     n: 3,
-    title: 'Log',
-    desc: 'Every play is recorded to a cloud dashboard with venue, timestamp, artist, and metadata. An offline buffer ensures no plays are missed.',
+    title: 'Tariff',
+    desc: "Kenya's gazetted Consolidated Tariffs are applied by user category and venue class, so every play log carries the licence-fee context it was collected under.",
   },
   {
     n: 4,
-    title: 'Pay',
-    desc: 'Royalty reports are generated automatically and handed to your CMO for payout, based on actual evidence, not estimates.',
+    title: 'Report',
+    desc: "Per-rightsholder reports with KECOBO's 70/30 split fields, hash-chained for tamper-evidence and formatted for CMO distribution and regulator review.",
+  },
+  {
+    n: 5,
+    title: 'Reconcile',
+    desc: 'Built for eCitizen reconciliation: computed liabilities lined up against collection records, so under-collection is visible instead of invisible.',
   },
 ]
 
@@ -49,8 +54,8 @@ export default function HowItWorks() {
           stagger={30}
           className="text-3xl md:text-5xl font-bold text-center text-fg"
           segments={[
-            { text: 'From Audio to Artist Payout: ' },
-            { text: 'Automatically', className: 'text-gold' },
+            { text: 'From Capture to ' },
+            { text: 'Reconciliation', className: 'text-gold' },
           ]}
         />
 

@@ -133,7 +133,15 @@ export default function TransparencyLedger() {
     setSettlingId(id)
     setError(null)
     try {
-      const res = await fetch(`/api/ledger/${id}/settle`, { method: 'POST' })
+      const demoClasses = ['bar_medium', 'bar_large', 'nightclub', 'restaurant']
+      const res = await fetch(`/api/ledger/${id}/settle`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userCategory: 'venue',
+          venueClass: demoClasses[Math.floor(Math.random() * demoClasses.length)],
+        }),
+      })
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
         throw new Error(body.error || `Failed to settle entry ${id} (${res.status})`)

@@ -3,6 +3,7 @@ import { CONTACT_EMAIL, mailto } from '../constants'
 
 const links = [
   { label: 'How It Works', href: '#how-it-works' },
+  { label: 'CMOs & Regulators', href: '#for-cmos' },
   { label: 'For Venues', href: '#for-venues' },
   { label: 'For Artists', href: '#for-artists' },
   { label: 'Transparency Ledger', href: '#ledger' },

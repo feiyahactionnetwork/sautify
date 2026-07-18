@@ -26,7 +26,7 @@ export default function Compliance() {
           stagger={12}
           baseDelay={300}
           className="mt-8 max-w-3xl mx-auto text-center text-lg text-muted leading-relaxed"
-          text="In 2026, a presidential directive moved music royalty collection onto the eCitizen platform, with a minimum 70% of collections ring-fenced for artists under KECOBO's Consolidated Tariffs. Sautify's evidence layer is designed to plug directly into that pipeline, feeding verified play logs to licensed Collective Management Organisations such as PAVRISK, and cross-referencing tracks against KECOBO's National Rights Registry, so payouts are based on what was actually played, not estimates."
+          text="In 2026, a presidential directive moved music royalty collection onto the eCitizen platform, with a minimum 70% of collections ring-fenced for artists under KECOBO's Consolidated Tariffs. Sautify's evidence layer is designed for that pipeline: play logs built for eCitizen reconciliation, works records that carry NRR-compatible identifiers, and regulator-ready reporting shaped to KECOBO's ICT-system requirements — so payouts can be based on what was actually played, not estimates."
         />
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -45,7 +45,7 @@ export default function Compliance() {
           stagger={12}
           baseDelay={200}
           className="mt-10 max-w-3xl mx-auto text-center text-sm text-muted leading-relaxed"
-          text="Sautify doesn't set tariffs or collect on KECOBO's behalf. We provide the verified play-log evidence that CMOs and the National Rights Registry use to calculate what each artist is owed."
+          text="Sautify doesn't set tariffs or collect on KECOBO's behalf, and has no affiliation with KECOBO, eCitizen, or any CMO. We produce verifiable play-log evidence in a format licensed CMOs and regulators can use to calculate what each artist is owed."
         />
       </div>
     </section>
