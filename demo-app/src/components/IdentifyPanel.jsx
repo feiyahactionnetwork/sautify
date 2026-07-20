@@ -8,10 +8,18 @@ async function postAudio(blob) {
     headers: { 'Content-Type': blob.type || 'application/octet-stream' },
     body: blob,
   })
-  const data = await res.json().catch(() => ({}))
+  const data = await res.json().catch(() => null)
   if (!res.ok) {
-    const err = new Error(data.message || 'Identification failed.')
-    err.code = data.error
+    const err = new Error(data?.message || 'Identification failed.')
+    err.code = data?.error
+    throw err
+  }
+  // A row may only ever be labelled a match if the proxy returned real match
+  // metadata — anything else (e.g. static hosting answering with HTML) is
+  // treated as the service being unreachable.
+  if (!data?.title || !data?.acrid) {
+    const err = new Error('Recognition service unreachable.')
+    err.code = 'unreachable'
     throw err
   }
   return data

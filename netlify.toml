@@ -2,6 +2,12 @@
   command = "npm run build"
   publish = "dist"
 
+# Branch deploy of the meeting demo (static, simulated mode). Only applies when
+# Netlify builds this branch; production (main) is untouched.
+[context."claude/sautify-pavrisk-demo-yfp3qt"]
+  command = "npm --prefix demo-app install && npm --prefix demo-app run build"
+  publish = "demo-app/dist"
+
 [build.environment]
   NODE_VERSION = "20"
 
