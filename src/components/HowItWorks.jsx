@@ -5,7 +5,7 @@ const steps = [
   {
     n: 1,
     title: 'Listen',
-    desc: 'A plug-in device captures 10-second audio clips every 30 seconds at your venue. No technical setup required.',
+    desc: 'A locked-down Sautify device, not your personal phone, runs our software and captures short audio clips at your venue. No technical setup required.',
   },
   {
     n: 2,

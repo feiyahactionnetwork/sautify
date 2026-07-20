@@ -2,8 +2,8 @@ import Reveal from './Reveal'
 import AnimatedText from './AnimatedText'
 
 const stats = [
-  { value: '80,000+', label: 'Licensed music venues in Kenya' },
-  { value: 'KES 2B+', label: 'Collected annually by MCSK' },
+  { value: '50,000+', label: 'Bars, hotels & venues across Kenya' },
+  { value: 'KES 2B+', label: "Historically collected annually by Kenya's CMOs" },
   { value: '0%', label: 'Of song plays ever recorded' },
 ]
 
@@ -39,7 +39,7 @@ export default function Problem() {
           className="mt-16 max-w-3xl mx-auto text-center text-lg text-muted leading-relaxed"
           segments={[
             {
-              text: "Every bar, hotel, club, and radio station in Kenya pays an annual licence fee to MCSK, the music copyright society. But because no mechanism exists to record which songs are actually played, royalties are distributed based on surveys and estimates. Artists receive what the system guesses they're owed, with no way to see or dispute it. ",
+              text: "Every bar, hotel, club, and radio station in Kenya pays an annual licence fee to a KECOBO-licensed collective management organisation, such as PAVRISK. But because no mechanism exists to record which songs are actually played, royalties are distributed based on surveys and estimates. Artists receive what the system guesses they're owed, with no way to see or dispute it. ",
             },
             { text: 'Sautify fixes the data layer.', className: 'text-fg font-medium' },
           ]}

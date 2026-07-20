@@ -26,7 +26,7 @@ export default function Compliance() {
           stagger={12}
           baseDelay={300}
           className="mt-8 max-w-3xl mx-auto text-center text-lg text-muted leading-relaxed"
-          text="In 2026, a presidential directive moved music royalty collection onto the eCitizen platform, with a minimum 70% of collections ring-fenced for artists under KECOBO's Consolidated Tariffs. Sautify's evidence layer is designed to plug directly into that pipeline, feeding verified play logs to licensed Collective Management Organisations such as PAVRISK, and cross-referencing tracks against KECOBO's National Rights Registry, so payouts are based on what was actually played, not estimates."
+          text="In 2026, a presidential directive moved music royalty collection onto the eCitizen platform, with a minimum 70% of collections ring-fenced for artists under KECOBO's Consolidated Tariffs. Sautify's evidence layer is designed to plug directly into that pipeline, feeding verified play logs to licensed Collective Management Organisations such as PAVRISK, matched against publicly registered KECOBO National Rights Registry works data, so payouts are based on what was actually played, not estimates."
         />
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6">

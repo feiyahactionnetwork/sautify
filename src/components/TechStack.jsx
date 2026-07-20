@@ -2,14 +2,13 @@ import Reveal from './Reveal'
 import AnimatedText from './AnimatedText'
 
 const tags = [
-  'Raspberry Pi Zero 2W',
+  'Sautify App (Android)',
   'ACRCloud API',
-  'FastAPI',
-  'PostgreSQL',
+  'Netlify Functions',
+  'Supabase (Postgres)',
   'React',
-  'M-Pesa API',
+  'Locked-down low-cost device',
   'Offline-first architecture',
-  'Tailscale VPN',
 ]
 
 export default function TechStack() {
@@ -42,7 +41,7 @@ export default function TechStack() {
             stagger={14}
             baseDelay={200}
             className="text-lg text-muted leading-relaxed"
-            text="Sautify's IoT device works on WiFi or cellular, buffers plays offline, and syncs automatically when connectivity is restored. Our cloud backend is built for scale, from 3 venues in Nairobi to 80,000 across Kenya."
+            text="Sautify runs as software on a low-cost, locked-down device we provide and control, not the venue's own phone, so the play data stays independently verifiable. It works on WiFi or cellular, buffers plays offline, and syncs automatically when connectivity is restored. We're piloting with our first 10 venues in Nairobi, with the architecture built to scale well beyond that."
           />
         </div>
       </div>
