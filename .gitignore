@@ -5,3 +5,6 @@ dist
 .env
 .claude
 .netlify
+
+# demo
+demo-server/.env
