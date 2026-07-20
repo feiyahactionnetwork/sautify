@@ -9,6 +9,11 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Keep the free-tier Supabase project from auto-pausing: run a tiny query every
+# 3 days (well inside Supabase's ~7-day inactivity window) at 06:00 UTC.
+[functions."keep-alive"]
+  schedule = "0 6 */3 * *"
+
 [[redirects]]
   from = "/api/ledger"
   to = "/.netlify/functions/list-ledger"
