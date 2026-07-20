@@ -21,6 +21,18 @@ cp demo-server/.env.example demo-server/.env
 Restart `npm run demo` after editing. The header chip must read **"recognition
 ready"** (green). If it reads "recognition MOCK", ACR_MOCK is still 1 — fix it.
 
+## Viewing on a phone
+
+1. Phone and laptop on the **same Wi-Fi** (or connect the laptop to the phone's hotspot).
+2. `npm run demo` — Vite now prints a **Network:** line, e.g. `http://192.168.1.23:5175`.
+3. Open that address in the phone's browser. macOS may ask to allow incoming
+   connections for node — click Allow.
+4. Caveat: the **mic** button won't work on the phone (browsers only allow
+   microphone access on HTTPS or localhost). The simulated feed, all six tabs,
+   and file-upload identify work fine. Do the live-mic moment on the laptop.
+5. If the venue Wi-Fi blocks device-to-device traffic (hotel/office guest
+   networks often do), use the phone-hotspot route from step 1 instead.
+
 ## Offline / fallback procedure
 
 The demo needs **zero network** to run in simulated mode:

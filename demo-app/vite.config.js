@@ -7,6 +7,7 @@ export default defineConfig({
   css: { postcss: { plugins: [] } },
   server: {
     port: 5175,
+    host: true, // expose on the LAN so a phone on the same Wi-Fi can open the demo
     proxy: {
       '/api': {
         target: 'http://localhost:5177',
