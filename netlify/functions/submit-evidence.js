@@ -1,6 +1,6 @@
 import { getSupabaseAdmin } from './_shared/supabaseAdmin.js'
 import { getEvidenceStore } from './_shared/blobStore.js'
-import { canonicalStringify, sha256Hex, GENESIS_HASH } from './_shared/hash.js'
+import { canonicalStringify, sha256Hex } from './_shared/hash.js'
 import { formatEntry } from './_shared/formatEntry.js'
 
 function json(statusCode, body) {
@@ -52,37 +52,22 @@ export const handler = async (event) => {
     const store = getEvidenceStore()
     await store.set(payloadHash, JSON.stringify(payload))
 
-    const { data: latest, error: latestError } = await supabase
-      .from('ledger_entries')
-      .select('chain_hash')
-      .order('id', { ascending: false })
-      .limit(1)
-      .maybeSingle()
-
-    if (latestError) {
-      return json(500, { error: latestError.message })
-    }
-
-    const prevHash = latest?.chain_hash ?? GENESIS_HASH
-    const chainHash = sha256Hex(prevHash + payloadHash)
-
+    // append_ledger_entry does the read-tip -> compute-chain-hash -> insert
+    // sequence atomically (advisory-locked) so concurrent submissions can't
+    // both read the same tip and corrupt the chain's ordering.
     const { data: inserted, error: insertError } = await supabase
-      .from('ledger_entries')
-      .insert({
-        venue_name: payload.venue.name,
-        venue_sbp_reference: payload.venue.sbpReference,
-        reporting_period_start: payload.reportingPeriod.start,
-        reporting_period_end: payload.reportingPeriod.end,
-        total_plays: payload.playCountSummary.totalPlays,
-        unique_tracks: payload.playCountSummary.uniqueTracks,
-        nrr_matched: payload.nrrCrossCheck.matched,
-        nrr_unmatched: payload.nrrCrossCheck.unmatched,
-        payload_hash: payloadHash,
-        blob_key: payloadHash,
-        prev_hash: prevHash === GENESIS_HASH ? null : prevHash,
-        chain_hash: chainHash,
+      .rpc('append_ledger_entry', {
+        p_venue_name: payload.venue.name,
+        p_venue_sbp_reference: payload.venue.sbpReference,
+        p_reporting_period_start: payload.reportingPeriod.start,
+        p_reporting_period_end: payload.reportingPeriod.end,
+        p_total_plays: payload.playCountSummary.totalPlays,
+        p_unique_tracks: payload.playCountSummary.uniqueTracks,
+        p_nrr_matched: payload.nrrCrossCheck.matched,
+        p_nrr_unmatched: payload.nrrCrossCheck.unmatched,
+        p_payload_hash: payloadHash,
+        p_blob_key: payloadHash,
       })
-      .select('*')
       .single()
 
     if (insertError) {
