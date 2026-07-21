@@ -3,6 +3,17 @@ import { getEvidenceStore } from './_shared/blobStore.js'
 import { canonicalStringify, sha256Hex } from './_shared/hash.js'
 import { formatEntry } from './_shared/formatEntry.js'
 
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_SECONDS = 600
+
+function clientIpHash(event) {
+  const raw =
+    event.headers['x-nf-client-connection-ip'] ||
+    event.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+    'unknown'
+  return sha256Hex(raw)
+}
+
 function json(statusCode, body) {
   return {
     statusCode,
@@ -46,6 +57,19 @@ export const handler = async (event) => {
 
   try {
     const supabase = getSupabaseAdmin()
+
+    const { data: allowed, error: rateLimitError } = await supabase.rpc('check_ledger_rate_limit', {
+      p_ip_hash: clientIpHash(event),
+      p_max_count: RATE_LIMIT_MAX,
+      p_window_seconds: RATE_LIMIT_WINDOW_SECONDS,
+    })
+
+    if (rateLimitError) {
+      return json(500, { error: rateLimitError.message })
+    }
+    if (!allowed) {
+      return json(429, { error: 'Too many submissions. Please wait a few minutes and try again.' })
+    }
 
     const payloadHash = sha256Hex(canonicalStringify(payload))
 
