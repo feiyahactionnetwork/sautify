@@ -3,6 +3,7 @@ import { PILOT_MAILTO } from '../constants'
 
 const links = [
   { label: 'How It Works', href: '#how-it-works' },
+  { label: 'For Institutions', href: '#for-institutions' },
   { label: 'For Venues', href: '#for-venues' },
   { label: 'For Artists', href: '#for-artists' },
   { label: 'Transparency Ledger', href: '#ledger' },
