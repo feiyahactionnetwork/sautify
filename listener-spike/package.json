@@ -1,0 +1,14 @@
+{
+  "name": "sautify-listener-spike",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "PoC of the redesigned capture pipeline: on-device fingerprinting + MQTT hash transmission + offline buffer (audit §1/§2).",
+  "scripts": {
+    "demo": "node src/demo.js"
+  },
+  "dependencies": {
+    "mqtt": "^5.10.1"
+  },
+  "comment": "mqtt is only needed for the real-broker MqttTransport; `npm run demo` uses the in-process LoopbackTransport and needs no install."
+}

@@ -330,5 +330,5 @@ Ordered by leverage-per-effort; each is independent enough to do alone.
 - §4 DDEX-DSR export endpoint: **done** (commit `03b0fbf`).
 - §5 "How It Works for Institutions" section: **done** (commit `bf9f458`).
 - Em dashes removed from the marketing site (commit `b26d796`).
-- §8 catalogue strategy: **recorded above; no code built** (raw-recording storage intentionally not implemented, pending founder/legal decision).
-- §1 Olaf spike and §2 pipeline redesign: **not started.**
+- §8 catalogue strategy: **recorded above.** Raw-recording storage intentionally not implemented. Safe version built: a catalogue fingerprint store (`catalog_works` + `catalog_fingerprints`), atomic ingest and landmark-vote match RPCs, and `POST /api/catalog/ingest` + `POST /api/catalog/match`, validated against Postgres 16 (commit `56d6f9f`).
+- §1 Olaf spike and §2 pipeline redesign: **PoC built** in `listener-spike/` (on-device fingerprinting, hash-only MQTT transport, durable offline buffer, ingest bridge). Runnable, deterministic demo passes end to end; real acoustic fingerprinting (Olaf) and the broker/DB wiring are the documented production steps. AGPL read still required before shipping Olaf-derived code.
