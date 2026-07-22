@@ -23,7 +23,7 @@ export default function ForInstitutions() {
           ]}
         />
 
-        {/* Shared intro (audit §5.1) — establishes the bounded, vendor role up front. */}
+        {/* Shared intro (audit §5.1): establishes the bounded, vendor role up front. */}
         <AnimatedText
           as="p"
           stagger={12}
@@ -32,7 +32,7 @@ export default function ForInstitutions() {
           text="Sautify is an independent music-compliance data layer for Kenya. We produce verified, tamper-evident evidence of which songs are actually played in licensed venues, and hand that evidence to the licensed Collective Management Organisations who collect and distribute royalties. Sautify does not set tariffs and does not collect or pay royalties. We make the data honest; the licensed CMO does the rest."
         />
 
-        {/* Institutional track — for PAVRISK, advertisers, labels. Professional
+        {/* Institutional track, for PAVRISK, advertisers, labels. Professional
             Kenyan business English (audit §5.2). */}
         <Reveal delay={200}>
           <div className="mt-16 rounded-2xl border border-line bg-card p-8 md:p-12">
@@ -82,7 +82,7 @@ export default function ForInstitutions() {
             </ul>
 
             <a
-              href={mailto('Institutional enquiry — evidence sample')}
+              href={mailto('Institutional enquiry: evidence sample')}
               className="mt-8 inline-flex items-center justify-center rounded-md bg-gold px-7 py-3.5 text-base font-semibold text-ink transition-all duration-200 ease-out hover:bg-gold/90 hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
             >
               Request an evidence sample
@@ -97,20 +97,20 @@ export default function ForInstitutions() {
         </Reveal>
 
         {/*
-          ARTIST- / VENUE-FACING SECTION — Kiswahili / Sheng version to be authored here.
+          ARTIST- / VENUE-FACING SECTION. Kiswahili / Sheng version to be authored here.
           Do NOT ship English body copy in this block. It is rendered below only as a
           short "coming soon" teaser. The localized copy, reviewed by a native speaker
           before publishing, should convey (audit §5.3):
             • Tone: warm, plain, first-person to the artist and the venue owner. Not legalese.
             • Artist message: "Every time your song plays in a bar, hotel or club, Sautify
-              records it — so when your CMO pays out, it's based on what you actually played,
+              records it, so when your CMO pays out, it's based on what you actually played,
               not a guess. You can see every play." Emphasise visibility and fairness, NOT
               "we pay you" (we don't).
             • Venue message: "Plug in the device and forget it. It runs itself, works offline,
               and gives you proof of what you played for licence renewals." Emphasise zero
               hassle and proof for compliance.
             • Must still carry a short plain-language version of the "Sautify doesn't collect
-              or pay — your CMO does" line.
+              or pay, your CMO does" line.
         */}
         <Reveal delay={150}>
           <div className="mt-8 rounded-2xl border border-dashed border-emerald/40 bg-[#0E1712] p-8 md:p-10 text-center">
@@ -133,7 +133,7 @@ export default function ForInstitutions() {
           </div>
         </Reveal>
 
-        {/* Shared compliance footer (audit §5.4) — mirrors the demo console disclaimer. */}
+        {/* Shared compliance footer (audit §5.4): mirrors the demo console disclaimer. */}
         <Reveal delay={200}>
           <p className="mt-12 max-w-3xl mx-auto text-center text-sm text-muted leading-relaxed">
             Sautify does not set tariffs or collect on KECOBO's behalf. We provide the verified play-log evidence

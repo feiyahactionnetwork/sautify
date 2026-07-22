@@ -185,7 +185,7 @@ export default function TransparencyLedger() {
               <span className="text-fg font-medium">not connected to KECOBO's or eCitizen's live systems.</span>{' '}
               "Verify Chain Integrity" confirms the ledger's hash-chain linkage hasn't been tampered with, not that
               every raw play was fingerprinted from a real venue. Settlement is performed by the licensed CMO on
-              eCitizen; Sautify neither holds nor moves funds — "Simulate CMO Reconciliation" only illustrates how
+              eCitizen; Sautify neither holds nor moves funds. "Simulate CMO Reconciliation" only illustrates how
               this evidence would feed that step.
             </p>
           </div>

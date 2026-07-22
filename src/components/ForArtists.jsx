@@ -54,7 +54,7 @@ export default function ForArtists() {
           stagger={16}
           baseDelay={400}
           className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed"
-          text="Log in to your Sautify dashboard and see exactly where your music was played, how many times, and an evidence-based estimate of what you're owed — which your licensed CMO uses to pay you."
+          text="Log in to your Sautify dashboard and see exactly where your music was played, how many times, and an evidence-based estimate of what you're owed, which your licensed CMO uses to pay you."
         />
 
         <div className="mt-16 grid sm:grid-cols-3 gap-6 text-left">
