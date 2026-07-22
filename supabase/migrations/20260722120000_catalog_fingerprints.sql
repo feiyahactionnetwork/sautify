@@ -102,9 +102,10 @@ create or replace function ingest_catalog_work(
   p_fingerprints        jsonb   -- array of { "hash": <int>, "offset": <int> }
 ) returns catalog_works
 language plpgsql
+set search_path = ''   -- pin schema resolution (Supabase linter 0011); refs are schema-qualified below
 as $$
 declare
-  v_work  catalog_works;
+  v_work  public.catalog_works;
   v_count integer;
 begin
   if p_fingerprints is null or jsonb_typeof(p_fingerprints) <> 'array'
@@ -112,7 +113,7 @@ begin
     raise exception 'p_fingerprints must be a non-empty JSON array';
   end if;
 
-  insert into catalog_works
+  insert into public.catalog_works
     (isrc, title, artist_name, rights_grant_type, rights_granted_by,
      rights_grant_ref, fingerprint_version, status)
   values
@@ -120,7 +121,7 @@ begin
      p_rights_granted_by, nullif(p_rights_grant_ref, ''), p_fingerprint_version, 'active')
   returning * into v_work;
 
-  insert into catalog_fingerprints (work_id, hash, t_offset)
+  insert into public.catalog_fingerprints (work_id, hash, t_offset)
   select v_work.id,
          (elem->>'hash')::bigint,
          (elem->>'offset')::integer
@@ -128,7 +129,7 @@ begin
 
   get diagnostics v_count = row_count;
 
-  update catalog_works
+  update public.catalog_works
      set fingerprint_count = v_count,
          updated_at = now()
    where id = v_work.id
@@ -151,6 +152,7 @@ create or replace function match_catalog_fingerprints(
 ) returns table (work_id bigint, votes bigint, t_delta integer)
 language sql
 stable
+set search_path = ''   -- pin schema resolution (Supabase linter 0011); refs are schema-qualified below
 as $$
   with q as (
     select (elem->>'hash')::bigint  as hash,
@@ -161,7 +163,7 @@ as $$
          count(*)                    as votes,
          (f.t_offset - q.q_offset)   as t_delta
   from q
-  join catalog_fingerprints f on f.hash = q.hash
+  join public.catalog_fingerprints f on f.hash = q.hash
   group by f.work_id, (f.t_offset - q.q_offset)
   having count(*) >= p_min_votes
   order by count(*) desc
