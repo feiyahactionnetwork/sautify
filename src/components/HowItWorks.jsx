@@ -19,8 +19,8 @@ const steps = [
   },
   {
     n: 4,
-    title: 'Pay',
-    desc: 'Royalty reports are generated automatically and handed to your CMO for payout, based on actual evidence, not estimates.',
+    title: 'Report',
+    desc: 'Evidence-ready royalty reports are generated automatically and handed to the licensed CMO, which makes the payout, based on actual evidence, not estimates.',
   },
 ]
 
@@ -49,7 +49,7 @@ export default function HowItWorks() {
           stagger={30}
           className="text-3xl md:text-5xl font-bold text-center text-fg"
           segments={[
-            { text: 'From Audio to Artist Payout: ' },
+            { text: 'From Audio to Auditable Evidence: ' },
             { text: 'Automatically', className: 'text-gold' },
           ]}
         />

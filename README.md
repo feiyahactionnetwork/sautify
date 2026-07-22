@@ -1,6 +1,6 @@
 # Sautify — Marketing Website
 
-Kenya's infrastructure for music royalty attribution. This repo is the public marketing site: React + Vite + Tailwind CSS, no backend, all calls-to-action use `mailto:` links.
+Kenya's independent compliance-data layer for music royalties — verified play-log evidence for licensed CMOs. This repo is the public marketing site: React + Vite + Tailwind CSS, all calls-to-action use `mailto:` links.
 
 ## Run locally
 

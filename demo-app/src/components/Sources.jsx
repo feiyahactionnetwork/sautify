@@ -51,10 +51,10 @@ export default function Sources() {
       <div className="panel">
         <div className="panel-title">Capture model</div>
         <p style={{ fontSize: 13.5, color: 'var(--muted)', lineHeight: 1.7, maxWidth: 720 }}>
-          Sautify is software-first: the Listener runs on commodity hardware at the venue, fingerprints ambient
-          audio locally, and ships only compact acoustic fingerprints and match metadata — never raw recordings.
-          Each device is bound to the venue's Single Business Permit reference so every detection is attributable
-          to a licensed premises.
+          Sautify is designed to be software-first: the Listener is built to fingerprint ambient audio on the
+          device and ship only compact acoustic fingerprints and match metadata, rather than raw recordings. Each
+          device is bound to the venue's Single Business Permit reference so every detection is attributable to a
+          licensed premises.
         </p>
       </div>
     </div>

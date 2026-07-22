@@ -39,7 +39,7 @@ export default function Footer() {
       </Reveal>
 
       <Reveal delay={150} className="mt-12 pt-8 border-t border-line max-w-7xl mx-auto text-center">
-        <p className="text-xs text-muted">© 2025 Sautify. Nairobi, Kenya.</p>
+        <p className="text-xs text-muted">© 2026 Sautify. Nairobi, Kenya.</p>
       </Reveal>
     </footer>
   )

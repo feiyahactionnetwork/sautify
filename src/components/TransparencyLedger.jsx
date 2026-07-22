@@ -184,7 +184,9 @@ export default function TransparencyLedger() {
               This is a live technical demo running on Sautify's own infrastructure. It is{' '}
               <span className="text-fg font-medium">not connected to KECOBO's or eCitizen's live systems.</span>{' '}
               "Verify Chain Integrity" confirms the ledger's hash-chain linkage hasn't been tampered with, not that
-              every raw play was fingerprinted from a real venue.
+              every raw play was fingerprinted from a real venue. Settlement is performed by the licensed CMO on
+              eCitizen; Sautify neither holds nor moves funds — "Simulate CMO Reconciliation" only illustrates how
+              this evidence would feed that step.
             </p>
           </div>
         </Reveal>
@@ -288,7 +290,7 @@ export default function TransparencyLedger() {
                             disabled={settlingId === entry.id}
                             className="flex-shrink-0 inline-flex items-center justify-center rounded-md border border-emerald/40 bg-emerald/10 px-4 py-2 text-sm font-semibold text-emeraldLight transition-all duration-200 ease-out hover:bg-emerald/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {settlingId === entry.id ? 'Settling…' : 'Simulate eCitizen Settlement'}
+                            {settlingId === entry.id ? 'Simulating…' : 'Simulate CMO Reconciliation'}
                           </button>
                         )}
                       </div>
