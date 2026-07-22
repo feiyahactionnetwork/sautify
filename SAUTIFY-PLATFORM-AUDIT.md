@@ -298,3 +298,37 @@ Ordered by leverage-per-effort; each is independent enough to do alone.
 4. **Data-pipeline redesign (§2) + Olaf spike (§1)** — the big one: on-device fingerprinting, MQTT hash transmission, real offline buffer, and an Olaf accuracy/AGPL evaluation. This is what turns the demo into a deployable product and removes the ACRCloud cost/raw-audio risk. Needs a legal read on AGPL before it ships.
 
 **No code, copy, or config has been changed. Tell me which of these to start with and I'll proceed on the `claude/compliance-platform-audit-0m90nm` branch.**
+
+---
+
+## 8. Catalog strategy — building our own reference DB safely
+
+**Question raised:** can we store copies of the ACRCloud recordings and use them to build our own catalogue, so we eventually depend less on ACRCloud?
+
+**Short answer:** the *goal* is right and is the same endgame as §1 (own the catalogue, drop the per-request bill). The *mechanism* "store copies of the recordings" does not work and should not be built, for three reasons. There is a clean alternative that reaches the same goal.
+
+### 8.1 Why "store the recordings" fails
+
+1. **We never receive ACRCloud's recordings.** The ACRCloud identify API returns metadata only (title, artist, ISRC, score, offset). It never returns audio or fingerprints. There is nothing of ACRCloud's to store; the only audio we could retain is our own venue ambient captures.
+2. **Venue captures are the wrong material for a catalogue.** They are 10 second, noisy, room acoustic fragments. Landmark fingerprinting wants clean source masters. A reference DB built from ambient bar clips is low quality and only ever covers the fragment that played.
+3. **Legal and privacy landmine.** Storing copies of copyrighted sound recordings to build a searchable database is reproduction of those works. For a company whose entire moat is being the honest, independent compliance layer, an unlicensed library of the exact songs it monitors is the single most self-undermining asset it could hold, and a due-diligence red flag. It also collides with the Kenya Data Protection Act 2019 (ambient audio captures patrons' private conversation; long-term raw-audio retention is a personal-data liability) and almost certainly with ACRCloud's terms of service on using results to build a competing recognition database (verify the ToS).
+
+### 8.2 The defensible design (same destination)
+
+- **Store fingerprints, not audio.** Irreversible, tiny, privacy-safe, and a far weaker copyright question than storing recordings (still worth a legal read).
+- **Use ACRCloud matches as a demand signal, not an audio source.** Each identification tells us which tracks are played most across the venue network: a ranked list of what to ingest into our own catalogue first. Completely clean.
+- **Ingest priority tracks from clean, licensed sources.** The existing "Join the Artist Waitlist" CTA is the natural, consented funnel: artists onboard their own masters and grant a licence to fingerprint them (they want to be in the catalogue so they get paid). This yields a clean rights chain plus a growth loop.
+- **Fingerprint those masters on-device with Olaf (§1),** which also removes raw-audio egress (§2). Over time our own DB covers the Kenyan long tail and we wean off ACRCloud.
+
+**Net:** ACRCloud is demoted from "audio source" to "tells us what to ingest next." The catalogue is built from consented clean masters plus fingerprints, never from stored recordings. Get a Kenyan-law legal read on fingerprint retention and on the ACRCloud ToS before building the store.
+
+---
+
+## Implementation status (branch `claude/compliance-platform-audit-0m90nm`)
+
+- §3 Positioning fixes: **done** (commit `c08f007`).
+- §4 DDEX-DSR export endpoint: **done** (commit `03b0fbf`).
+- §5 "How It Works for Institutions" section: **done** (commit `bf9f458`).
+- Em dashes removed from the marketing site (commit `b26d796`).
+- §8 catalogue strategy: **recorded above; no code built** (raw-recording storage intentionally not implemented, pending founder/legal decision).
+- §1 Olaf spike and §2 pipeline redesign: **not started.**
