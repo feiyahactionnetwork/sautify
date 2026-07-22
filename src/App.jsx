@@ -6,6 +6,7 @@ import ForVenues from './components/ForVenues'
 import ForArtists from './components/ForArtists'
 import TechStack from './components/TechStack'
 import Compliance from './components/Compliance'
+import ForInstitutions from './components/ForInstitutions'
 import TransparencyLedger from './components/TransparencyLedger'
 import Pilot from './components/Pilot'
 import About from './components/About'
@@ -23,6 +24,7 @@ export default function App() {
         <ForArtists />
         <TechStack />
         <Compliance />
+        <ForInstitutions />
         <TransparencyLedger />
         <Pilot />
         <About />

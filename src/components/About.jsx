@@ -21,7 +21,7 @@ export default function About() {
           stagger={16}
           baseDelay={400}
           className="mt-6 text-lg text-muted leading-relaxed"
-          text="Sautify was founded in Nairobi by a team that saw firsthand how Kenya's music artists were being shortchanged by a system that had no data. We built the infrastructure that makes royalty collection transparent, auditable, and fair, starting with Kenya."
+          text="Sautify was founded in Nairobi by a team that saw firsthand how Kenya's music artists were being shortchanged by a system that had no data. We built the infrastructure that makes royalty data transparent, auditable, and fair, starting with Kenya."
         />
 
         <Reveal delay={900}>

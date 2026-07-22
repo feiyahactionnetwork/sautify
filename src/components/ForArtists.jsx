@@ -13,8 +13,8 @@ const features = [
     ),
   },
   {
-    title: 'Royalty Tracking',
-    desc: 'See your earnings build in real time',
+    title: 'Play Tracking',
+    desc: 'See every verified play as it is logged',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M4 19V5M4 19H20M8 15V11M12.5 15V8M17 15V13" stroke="#26A65B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -54,7 +54,7 @@ export default function ForArtists() {
           stagger={16}
           baseDelay={400}
           className="mt-6 max-w-2xl mx-auto text-lg text-muted leading-relaxed"
-          text="Log in to your Sautify dashboard and see exactly where your music was played, how many times, and what you're owed, in real time."
+          text="Log in to your Sautify dashboard and see exactly where your music was played, how many times, and an evidence-based estimate of what you're owed, which your licensed CMO uses to pay you."
         />
 
         <div className="mt-16 grid sm:grid-cols-3 gap-6 text-left">

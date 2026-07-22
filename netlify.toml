@@ -30,6 +30,21 @@
   status = 200
 
 [[redirects]]
+  from = "/api/ledger/:id/export.dsr"
+  to = "/.netlify/functions/export-dsr"
+  status = 200
+
+[[redirects]]
+  from = "/api/catalog/ingest"
+  to = "/.netlify/functions/catalog-ingest"
+  status = 200
+
+[[redirects]]
+  from = "/api/catalog/match"
+  to = "/.netlify/functions/catalog-match"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
