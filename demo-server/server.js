@@ -3,6 +3,12 @@
 import 'dotenv/config'
 import express from 'express'
 import crypto from 'node:crypto'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const LOG_PATH = path.join(__dirname, 'listener-log.jsonl')
 
 const app = express()
 const PORT = process.env.PORT || 5177
@@ -14,6 +20,15 @@ const ACR_MOCK = process.env.ACR_MOCK === '1'
 
 const configured = Boolean(ACR_HOST && ACR_ACCESS_KEY && ACR_ACCESS_SECRET)
 
+// Durable, append-only field-evidence log. Only ever written for real
+// ACRCloud matches (never mock, never simulated), so its existence and
+// contents are themselves the proof a real detection pipeline ran.
+function logRealDetection(entry) {
+  fs.appendFile(LOG_PATH, JSON.stringify(entry) + '\n', (err) => {
+    if (err) console.error('[listener-log] write failed:', err.message)
+  })
+}
+
 // Raw audio body, capped at 12 MB (10 s mic clips are ~100 KB; uploads are songs)
 app.use('/identify', express.raw({ type: () => true, limit: '12mb' }))
 
@@ -23,6 +38,7 @@ app.get('/health', (_req, res) => {
 
 app.post('/identify', async (req, res) => {
   const audio = req.body
+  const venue = String(req.query.venue || 'unlabeled').slice(0, 80)
   if (!audio || !audio.length) {
     return res.status(400).json({ error: 'empty_audio', message: 'No audio received.' })
   }
@@ -81,14 +97,16 @@ app.post('/identify', async (req, res) => {
     if (code === 0) {
       const m = data.metadata?.music?.[0]
       if (!m) return res.status(502).json({ error: 'no_metadata', message: 'Match reported but no metadata returned.' })
-      return res.json({
+      const result = {
         title: m.title,
         artist: (m.artists || []).map((a) => a.name).join(', '),
         album: m.album?.name || '',
         acrid: m.acrid,
         score: m.score,
         play_offset_ms: m.play_offset_ms ?? null,
-      })
+      }
+      logRealDetection({ at: new Date().toISOString(), venue, ...result })
+      return res.json(result)
     }
     if (code === 1001) {
       return res.status(404).json({ error: 'no_match', message: 'No match found for this audio.' })

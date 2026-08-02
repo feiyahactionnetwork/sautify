@@ -8,3 +8,4 @@ dist
 
 # demo
 demo-server/.env
+demo-server/listener-log.jsonl

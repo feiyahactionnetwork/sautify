@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Sautify Listener (field test)</title>
+<style>
+  :root { --ink:#0C1220; --panel:#131C2E; --line:#223049; --fg:#e8edf6; --muted:#8b98ad;
+          --amber:#FFB224; --green:#3ECF8E; --alert:#F4645C; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ink); color:var(--fg); font-family: -apple-system, system-ui, sans-serif; padding: 24px; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+  input[type=text] { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--ink); color: var(--fg); font-size: 14px; }
+  .row { display:flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+  button { font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--line); background: var(--ink); color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+  button.stop { background: var(--alert); color: var(--ink); border-color: var(--alert); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .status { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .status.live { color: var(--green); border-color: var(--green); }
+  .status.busy { color: var(--amber); border-color: var(--amber); }
+  .banner { display:none; background: color-mix(in srgb, var(--green) 15%, transparent); border: 1px solid var(--green); color: var(--green);
+            padding: 12px 16px; border-radius: 8px; font-weight: 700; text-align:center; margin-bottom: 16px; }
+  .banner.on { display:block; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align:left; color: var(--muted); font-size: 11px; text-transform:uppercase; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  td { padding: 7px 8px; border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+  .real { color: var(--green); font-weight: 600; }
+  .mock { color: var(--amber); }
+  .err { color: var(--muted); }
+  .count { font-size: 28px; font-weight: 700; }
+  .countlabel { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Sautify Listener &mdash; field test mode</h1>
+  <div class="sub">Unattended loop: records 10s, sends to ACRCloud via the local demo-server, logs every real match to <code>demo-server/listener-log.jsonl</code>. Leave this tab open and visible.</div>
+
+  <div class="banner" id="banner">LISTENING &mdash; do not close this tab</div>
+
+  <div class="panel">
+    <label for="venue">Venue / location label (for this test, wherever the laptop is sitting)</label>
+    <input type="text" id="venue" placeholder="e.g. Home desk, or a real venue name" />
+    <div class="row">
+      <button class="primary" id="startBtn">Start listening</button>
+      <button class="stop" id="stopBtn" disabled>Stop</button>
+      <span class="status" id="status">idle</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="count" id="realCount">0</div>
+    <div class="countlabel">real matches logged this session</div>
+  </div>
+
+  <div class="panel">
+    <table>
+      <thead><tr><th>Time</th><th>Result</th><th>Track</th><th>Score</th></tr></thead>
+      <tbody id="log"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const venueInput = document.getElementById('venue')
+const startBtn = document.getElementById('startBtn')
+const stopBtn = document.getElementById('stopBtn')
+const statusEl = document.getElementById('status')
+const bannerEl = document.getElementById('banner')
+const logEl = document.getElementById('log')
+const realCountEl = document.getElementById('realCount')
+
+venueInput.value = localStorage.getItem('sautify-listener-venue') || ''
+venueInput.addEventListener('input', () => localStorage.setItem('sautify-listener-venue', venueInput.value))
+
+const RECORD_MS = 10000
+const GAP_MS = 50000 // wait between cycles, keeps request volume (and ACRCloud cost) sane
+
+let running = false
+let realCount = 0
+let wakeLock = null
+
+function setStatus(text, cls) {
+  statusEl.textContent = text
+  statusEl.className = 'status' + (cls ? ' ' + cls : '')
+}
+
+function addRow(time, kind, text, score) {
+  const tr = document.createElement('tr')
+  tr.innerHTML = `<td>${time}</td><td class="${kind}">${kind}</td><td>${text}</td><td>${score ?? ''}</td>`
+  logEl.prepend(tr)
+}
+
+async function recordClip() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+  const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : ''
+  const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
+  const chunks = []
+  rec.ondataavailable = (e) => e.data.size && chunks.push(e.data)
+  const done = new Promise((resolve) => { rec.onstop = () => resolve(new Blob(chunks, { type: rec.mimeType })) })
+  rec.start()
+  await new Promise((r) => setTimeout(r, RECORD_MS))
+  rec.stop()
+  stream.getTracks().forEach((t) => t.stop())
+  return done
+}
+
+async function cycle() {
+  if (!running) return
+  try {
+    setStatus('recording…', 'busy')
+    const blob = await recordClip()
+    setStatus('identifying…', 'busy')
+    const venue = encodeURIComponent(venueInput.value || 'unlabeled')
+    const res = await fetch(`/api/identify?venue=${venue}`, {
+      method: 'POST',
+      headers: { 'Content-Type': blob.type || 'application/octet-stream' },
+      body: blob,
+    })
+    const data = await res.json().catch(() => ({}))
+    const time = new Date().toLocaleTimeString()
+    if (res.ok && data.title) {
+      if (data.mock) {
+        addRow(time, 'mock', `${data.title} — ${data.artist}`, data.score)
+      } else {
+        addRow(time, 'real', `${data.title} — ${data.artist}`, data.score)
+        realCount += 1
+        realCountEl.textContent = String(realCount)
+      }
+    } else {
+      addRow(time, 'err', data.message || 'no match / unreachable', '')
+    }
+  } catch (err) {
+    addRow(new Date().toLocaleTimeString(), 'err', err.message || 'mic or network error', '')
+  } finally {
+    if (running) {
+      setStatus('waiting…', 'live')
+      setTimeout(cycle, GAP_MS)
+    }
+  }
+}
+
+startBtn.addEventListener('click', async () => {
+  running = true
+  startBtn.disabled = true
+  stopBtn.disabled = false
+  bannerEl.classList.add('on')
+  setStatus('live', 'live')
+  try { wakeLock = await navigator.wakeLock?.request('screen') } catch {}
+  cycle()
+})
+
+stopBtn.addEventListener('click', () => {
+  running = false
+  startBtn.disabled = false
+  stopBtn.disabled = true
+  bannerEl.classList.remove('on')
+  setStatus('stopped')
+  wakeLock?.release?.().catch(() => {})
+})
+
+document.addEventListener('visibilitychange', async () => {
+  if (running && document.visibilityState === 'visible' && !wakeLock) {
+    try { wakeLock = await navigator.wakeLock?.request('screen') } catch {}
+  }
+})
+</script>
+</body>
+</html>
