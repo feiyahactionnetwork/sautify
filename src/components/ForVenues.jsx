@@ -3,9 +3,9 @@ import AnimatedText from './AnimatedText'
 import { PILOT_MAILTO } from '../constants'
 
 const bullets = [
-  'Plug in and forget: the device runs itself',
-  'No internet? Plays are buffered and synced automatically',
-  'Proof of what you played, useful for licence renewals',
+  'Plug in and forget: the device is designed to run itself',
+  'No internet? Plays are designed to buffer and sync automatically once connectivity returns',
+  'Built to give you proof of what you played, useful for licence renewals',
 ]
 
 const samplePlays = [
@@ -26,42 +26,47 @@ function CheckIcon() {
 function DeviceMockup() {
   const bars = Array.from({ length: 28 })
   return (
-    <div className="relative rounded-2xl border border-line bg-card p-6 sm:p-8 overflow-hidden transition-all duration-300 ease-out hover:border-emerald/40 hover:shadow-xl hover:shadow-emerald/5">
-      <div className="flex items-center gap-3 mb-6">
-        <span className="w-2.5 h-2.5 rounded-full bg-emeraldLight animate-pulse" aria-hidden="true" />
-        <span className="text-sm font-medium text-muted">Sautify Device: Live</span>
-      </div>
+    <div>
+      <div className="relative rounded-2xl border border-line bg-card p-6 sm:p-8 overflow-hidden transition-all duration-300 ease-out hover:border-emerald/40 hover:shadow-xl hover:shadow-emerald/5">
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-2.5 h-2.5 rounded-full bg-emeraldLight/60" aria-hidden="true" />
+          <span className="text-sm font-medium text-muted">Sautify Device — concept preview</span>
+        </div>
 
-      <div className="rounded-lg bg-ink border border-line p-5 mb-6">
-        <div className="flex items-end gap-1 h-16" aria-hidden="true">
-          {bars.map((_, i) => (
-            <span
-              key={i}
-              className="flex-1 rounded-t-full bg-gradient-to-t from-emerald to-emeraldLight animate-wave origin-bottom"
-              style={{
-                height: `${25 + Math.abs(Math.sin(i * 0.5)) * 65}%`,
-                animationDelay: `${(i % 10) * 0.1}s`,
-              }}
-            />
+        <div className="rounded-lg bg-ink border border-line p-5 mb-6">
+          <div className="flex items-end gap-1 h-16" aria-hidden="true">
+            {bars.map((_, i) => (
+              <span
+                key={i}
+                className="flex-1 rounded-t-full bg-gradient-to-t from-emerald to-emeraldLight animate-wave origin-bottom"
+                style={{
+                  height: `${25 + Math.abs(Math.sin(i * 0.5)) * 65}%`,
+                  animationDelay: `${(i % 10) * 0.1}s`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {samplePlays.map((p) => (
+            <div key={p.title} className="flex items-center justify-between text-sm transition-transform duration-200 ease-out hover:translate-x-1">
+              <div>
+                <div className="text-fg font-medium">{p.title}</div>
+                <div className="text-muted text-xs mt-0.5">
+                  {p.artist} · {p.time}
+                </div>
+              </div>
+              <span className="text-xs rounded-full bg-emerald/15 text-emeraldLight px-2.5 py-1 border border-emerald/30">
+                Sample
+              </span>
+            </div>
           ))}
         </div>
       </div>
-
-      <div className="space-y-4">
-        {samplePlays.map((p) => (
-          <div key={p.title} className="flex items-center justify-between text-sm transition-transform duration-200 ease-out hover:translate-x-1">
-            <div>
-              <div className="text-fg font-medium">{p.title}</div>
-              <div className="text-muted text-xs mt-0.5">
-                {p.artist} · {p.time}
-              </div>
-            </div>
-            <span className="text-xs rounded-full bg-emerald/15 text-emeraldLight px-2.5 py-1 border border-emerald/30">
-              Logged
-            </span>
-          </div>
-        ))}
-      </div>
+      <p className="mt-3 text-center text-xs text-muted">
+        Illustrative preview of the device view — not a live screenshot.
+      </p>
     </div>
   )
 }

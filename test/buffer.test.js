@@ -63,3 +63,54 @@ test('a fresh buffer reports size 0', () => {
     rmSync(dir, { recursive: true, force: true })
   }
 })
+
+test('a record enqueued while a drain is in flight survives the drain', async () => {
+  const { buffer, dir } = tmpBuffer()
+  try {
+    buffer.enqueue({ n: 1 })
+    buffer.enqueue({ n: 2 })
+
+    // A slow drain, standing in for a flush whose network calls take a while.
+    const drainPromise = buffer.drain(async () => {
+      await new Promise((r) => setTimeout(r, 30))
+    })
+
+    // A new detection arrives mid-flush (the scenario a real capture loop
+    // would hit): enqueue must not be clobbered when the drain finishes.
+    await new Promise((r) => setTimeout(r, 10))
+    buffer.enqueue({ n: 3 })
+
+    const result = await drainPromise
+    assert.equal(result.delivered, 2)
+    assert.equal(buffer.size(), 1)
+
+    const rest = []
+    await buffer.drain(async (rec) => rest.push(rec.n))
+    assert.deepEqual(rest, [3])
+    assert.equal(buffer.size(), 0)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a second concurrent drain on the same instance is a no-op, not a race', async () => {
+  const { buffer, dir } = tmpBuffer()
+  try {
+    for (const n of [1, 2, 3]) buffer.enqueue({ n })
+
+    const seen = []
+    const first = buffer.drain(async (rec) => {
+      await new Promise((r) => setTimeout(r, 20))
+      seen.push(rec.n)
+    })
+    const second = buffer.drain(async (rec) => seen.push(`should-not-run-${rec.n}`))
+
+    const [firstResult, secondResult] = await Promise.all([first, second])
+    assert.deepEqual(seen, [1, 2, 3])
+    assert.equal(firstResult.delivered, 3)
+    assert.equal(secondResult.delivered, 0)
+    assert.equal(buffer.size(), 0)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})

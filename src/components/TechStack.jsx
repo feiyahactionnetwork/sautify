@@ -2,7 +2,6 @@ import Reveal from './Reveal'
 import AnimatedText from './AnimatedText'
 
 const tags = [
-  'Sautify App (Android)',
   'ACRCloud API',
   'Netlify Functions',
   'Supabase (Postgres)',
@@ -41,7 +40,7 @@ export default function TechStack() {
             stagger={14}
             baseDelay={200}
             className="text-lg text-muted leading-relaxed"
-            text="Sautify runs as software on a low-cost, locked-down device we provide and control, not the venue's own phone, so the play data stays independently verifiable. It works on WiFi or cellular, buffers plays offline, and syncs automatically when connectivity is restored. We're piloting with our first 10 venues in Nairobi, with the architecture built to scale well beyond that."
+            text="Sautify is designed to run as software on a low-cost, locked-down device we provide and control, not the venue's own phone, so the play data stays independently verifiable. It's built to work on WiFi or cellular, buffer plays offline, and sync automatically when connectivity is restored. We're onboarding our first pilot venues in Nairobi, targeting our first 10, with the architecture designed to scale well beyond that."
           />
         </div>
       </div>
