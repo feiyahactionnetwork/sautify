@@ -1,6 +1,6 @@
 # Feiyah Action Network homepage
 
-Static site for feiyahactionnetwork.com, built for Netlify hosting. Plain HTML,
+Static site for feiyahactionnetwork.org, built for Netlify hosting. Plain HTML,
 compiled Tailwind CSS, and a small vanilla JS file. No framework, no build step
 required to serve it.
 
