@@ -1,0 +1,13 @@
+{
+  "name": "feiyah-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Feiyah Action Network homepage: static site for Netlify",
+  "scripts": {
+    "build": "tailwindcss -i src/input.css -o css/styles.css --minify",
+    "watch": "tailwindcss -i src/input.css -o css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}

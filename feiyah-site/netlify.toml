@@ -1,0 +1,29 @@
+# Netlify config for the Feiyah Action Network site.
+# Create a separate Netlify site from this repo with the base directory set to
+# "feiyah-site" so this file (not the repo-root netlify.toml) applies.
+
+[build]
+  command = "npm ci && npm run build"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Filenames are not content-hashed, so cache assets for a day rather than
+# immutably; Netlify's ETags handle revalidation after that.
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

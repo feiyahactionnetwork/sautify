@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    background: #211a13;
+    color: #faf7f2;
+  }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 3px solid #211a13;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .bg-ink :focus-visible {
+    outline-color: #faf7f2;
+  }
+}
+
+@layer components {
+  /* Scroll-reveal: sections start slightly shifted and transparent, then
+     transition in when .is-visible is added by the IntersectionObserver in
+     js/main.js. Pure CSS transitions, no animation library. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s ease-out,
+      transform 0.7s ease-out;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* If JS never runs, content must still be readable */
+  .no-js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Users who prefer reduced motion get no movement at all */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
