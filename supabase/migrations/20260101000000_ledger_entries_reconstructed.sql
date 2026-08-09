@@ -1,30 +1,34 @@
 -- Evidence ledger: the append-only chain behind /api/ledger and the
 -- Transparency Ledger UI.
 --
--- ⚠️ RECONSTRUCTED, NOT AUTHORITATIVE.
---
 -- The original `ledger_entries` table and `append_ledger_entry` RPC were
 -- created directly in the Supabase project and were never version controlled —
 -- 20260722120000_catalog_fingerprints.sql says so in its own header. That meant
 -- the repo could not rebuild its own database from scratch, so a fresh
 -- environment (a test project, a new staging project, a disaster-recovery
--- restore) had no way to come up.
+-- restore) had no way to come up. This file closes that gap.
 --
--- This file closes that gap. It was derived by reading the callers rather than
--- by dumping production:
---   * column names + types   -> _shared/formatEntry.js
---   * RPC signature          -> submit-evidence.js
---   * settlement columns     -> simulate-settlement.js
---   * chain-hash formula     -> src/components/TransparencyLedger.jsx (verifier)
+-- VERIFIED against the live production schema on 2026-08-09 (read-only
+-- information_schema / pg_get_functiondef inspection). Columns, types,
+-- nullability, defaults, constraints and indexes match production exactly.
 --
--- The chain-hash formula is verified: this function and the JS in
--- _shared/hash.js produce identical digests for the same inputs.
+-- Two DELIBERATE deviations from the production function, both hardening:
 --
--- BEFORE TRUSTING THIS AGAINST PRODUCTION, diff it against the live schema.
--- Nullability, defaults, numeric precision and any indexes added by hand are
--- the likely points of drift. `create table if not exists` means applying it to
--- a database that already has the table is a no-op, but the RPC below IS a
--- `create or replace` and will overwrite an existing definition.
+--   1. `set search_path = ''`. Production's copy leaves search_path unpinned,
+--      which Supabase's own linter flags (rule 0011) and which every other
+--      migration in this repo pins. Pinned here for consistency and safety.
+--   2. Builtin `sha256(bytea)` instead of `extensions.digest(..., 'sha256')`.
+--      pgcrypto lives in the `extensions` schema, which a pinned empty
+--      search_path cannot see, so the two changes are a package. The digests
+--      are identical — verified against production's formula and against the
+--      JS in _shared/hash.js, so entries written by either version verify in
+--      the Transparency Ledger UI.
+--
+-- Applying this to a database that already has the table is a no-op for the
+-- table (`create table if not exists`), but the RPC is a `create or replace`
+-- and WILL overwrite an existing definition — which on production means
+-- swapping in the two deviations above. That is safe but it is a change; make
+-- it deliberately.
 --
 -- Dated 20260101 so it sorts ahead of the two migrations that assume this table
 -- already exists.
@@ -46,12 +50,16 @@ create table if not exists ledger_entries (
   -- payload_hash is the SHA-256 of the canonically stringified evidence blob;
   -- blob_key is where that blob lives in Netlify Blobs. They are equal today.
   payload_hash            text not null,
-  blob_key                text,
+  blob_key                text not null,
 
   -- The tamper-evident chain. prev_hash is null for the genesis entry, and the
   -- verifier substitutes GENESIS_HASH (64 zeroes) when recomputing.
+  --
+  -- chain_hash is UNIQUE: two entries sharing one is by definition a forked or
+  -- replayed chain, so the database refuses it rather than leaving the UI to
+  -- detect it later.
   prev_hash               text,
-  chain_hash              text not null,
+  chain_hash              text not null unique,
 
   settlement_status       text not null default 'pending'
                             check (settlement_status in ('pending', 'settled')),
@@ -102,7 +110,9 @@ declare
   v_row   public.ledger_entries;
   c_genesis constant text := repeat('0', 64);
 begin
-  perform pg_advisory_xact_lock(hashtext('ledger_entries:append'));
+  -- Same lock key string as the production function, so the two serialise
+  -- against each other rather than taking different locks.
+  perform pg_advisory_xact_lock(hashtext('ledger_entries_chain'));
 
   select chain_hash into v_prev
     from public.ledger_entries
