@@ -1,0 +1,13 @@
+{
+  "name": "sautify-agent",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Reference x402 buying agent with Virtual Wallet guardrails",
+  "scripts": {
+    "demo": "node demo.js"
+  },
+  "dependencies": {
+    "viem": "^2.55.11"
+  }
+}

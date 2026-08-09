@@ -2,6 +2,7 @@ import { getSupabaseAdmin } from './_shared/supabaseAdmin.js'
 import { getEvidenceStore } from './_shared/blobStore.js'
 import { formatEntry } from './_shared/formatEntry.js'
 import { buildDsrFlatFile } from './_shared/dsrExport.js'
+import { withX402 } from './_shared/x402.js'
 
 function json(statusCode, body) {
   return {
@@ -11,7 +12,7 @@ function json(statusCode, body) {
   }
 }
 
-export const handler = async (event) => {
+const exportHandler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return json(405, { error: 'Method not allowed' })
   }
@@ -68,3 +69,5 @@ export const handler = async (event) => {
     return json(500, { error: err.message })
   }
 }
+
+export const handler = withX402(exportHandler, { resourcePath: '/api/ledger/export.dsr' })

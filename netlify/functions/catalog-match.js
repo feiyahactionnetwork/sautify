@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from './_shared/supabaseAdmin.js'
+import { withX402 } from './_shared/x402.js'
 
 // Match a batch of query fingerprints against the catalogue (audit §8, and the
 // read-path that the §1/§2 on-device pipeline will call instead of ACRCloud).
@@ -36,7 +37,7 @@ function validate(p) {
   return null
 }
 
-export const handler = async (event) => {
+const matchHandler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return json(405, { error: 'Method not allowed' })
   }
@@ -91,3 +92,6 @@ export const handler = async (event) => {
     return json(500, { error: err.message })
   }
 }
+
+// Payable per call once x402 is configured; pass-through until then (spec §4.1).
+export const handler = withX402(matchHandler, { resourcePath: '/api/catalog/match' })

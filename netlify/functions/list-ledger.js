@@ -1,5 +1,6 @@
 import { getSupabaseAdmin } from './_shared/supabaseAdmin.js'
 import { formatEntry } from './_shared/formatEntry.js'
+import { withX402 } from './_shared/x402.js'
 
 function json(statusCode, body) {
   return {
@@ -9,7 +10,7 @@ function json(statusCode, body) {
   }
 }
 
-export const handler = async (event) => {
+const listHandler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return json(405, { error: 'Method not allowed' })
   }
@@ -27,3 +28,5 @@ export const handler = async (event) => {
     return json(500, { error: err.message })
   }
 }
+
+export const handler = withX402(listHandler, { resourcePath: '/api/ledger' })

@@ -43,6 +43,22 @@ The included `netlify.toml` also adds an SPA redirect (`/* → /index.html`) so 
 - Tailwind CSS
 - Zero backend — every CTA opens a pre-filled `mailto:` to `hamed.nalle@sautify.com`
 
+## Agentic commerce (x402)
+
+The read endpoints can be sold per call to AI agents over the open
+[x402](https://www.x402.org) protocol. See
+[`docs/AGENTIC-COMMERCE-SPEC.md`](./docs/AGENTIC-COMMERCE-SPEC.md) for the protocol
+reference, pricing, M-Pesa settlement options, and the Kenya VASP position.
+
+```bash
+npm run agent:demo   # simulated buyer agent — no chain, no keys, no network
+```
+
+x402 is **off unless `SAUTIFY_X402_PAY_TO` is set**, and defaults to Base Sepolia
+testnet when it is. Enabling mainnet is gated on the legal review in §7 of the spec.
+Sautify is x402-compatible; it is not affiliated with or integrated into any wallet
+provider's product.
+
 ## SEO
 
 Canonical URL, robots meta, OG/Twitter tags, and Organization JSON-LD are set in `index.html` for `https://sautify.co.ke/`. `public/robots.txt` and `public/sitemap.xml` are included for Google Search Console submission — update the domain in both if it ever changes.
